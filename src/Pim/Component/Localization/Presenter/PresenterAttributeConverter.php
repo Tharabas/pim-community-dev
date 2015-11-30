@@ -13,7 +13,7 @@ use Pim\Component\Catalog\Repository\AttributeRepositoryInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class PresenterAttributeConverter
+class PresenterAttributeConverter implements PresenterAttributeConverterInterface
 {
     /** @var PresenterRegistry */
     protected $presenterRegistry;
@@ -34,15 +34,9 @@ class PresenterAttributeConverter
     }
 
     /**
-     * Localize an attribute value
-     *
-     * @param string $code
-     * @param mixed  $data
-     * @param array  $options
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function convertDefaultToLocalizedValue($code, $data, array $options = [])
+    public function convert($code, $data, array $options = [])
     {
         $attribute = $this->attributeRepository->findOneByIdentifier($code);
         if (null === $attribute) {
