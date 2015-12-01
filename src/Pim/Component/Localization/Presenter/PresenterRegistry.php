@@ -15,6 +15,9 @@ class PresenterRegistry implements PresenterRegistryInterface
     /** @var PresenterInterface[] */
     protected $presenters = [];
 
+    /** @var PresenterInterface[] */
+    protected $optionPresenters = [];
+
     /**
      * {@inheritdoc}
      */
@@ -28,13 +31,42 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
+    public function addAttributeOptionPresenter(PresenterInterface $presenter)
+    {
+        $this->optionPresenters[] = $presenter;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPresenter($attributeType)
     {
-        if (!empty($this->presenters)) {
-            foreach ($this->presenters as $presenter) {
-                if ($presenter->supports($attributeType)) {
-                    return $presenter;
-                }
+        return $this->getSupportedPresenter($this->presenters, $attributeType);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeOptionPresenter($attributeName)
+    {
+        return $this->getSupportedPresenter($this->optionPresenters, $attributeName);
+    }
+
+    /**
+     * Returning the first presenter supporting the value
+     *
+     * @param PresenterInterface[] $presenters
+     * @param string               $value
+     *
+     * @return PresenterInterface|null
+     */
+    protected function getSupportedPresenter(array $presenters, $value)
+    {
+        foreach ($presenters as $presenter) {
+            if ($presenter->supports($value)) {
+                return $presenter;
             }
         }
 

@@ -28,4 +28,20 @@ interface PresenterRegistryInterface
      * @return null|PresenterInterface
      */
     public function getPresenter($attributeType);
+
+    /**
+     * Adds a Presenter to the registry to manage attribute options
+     *
+     * @param PresenterInterface $presenter
+     */
+    public function addAttributeOptionPresenter(PresenterInterface $presenter);
+
+    /**
+     * Get the first matching presenter supporting the attribute option.
+     *
+     * @param string $attributeName
+     *
+     * @return null|PresenterInterface
+     */
+    public function getAttributeOptionPresenter($attributeName);
 }
