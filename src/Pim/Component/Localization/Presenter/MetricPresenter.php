@@ -9,7 +9,7 @@ namespace Pim\Component\Localization\Presenter;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MetricPresenter extends AbstractNumberPresenter
+class MetricPresenter extends NumberPresenter
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,7 @@ class MetricPresenter extends AbstractNumberPresenter
     public function present($value, array $options = [])
     {
         if (is_array($value) && isset($value['data'])) {
-            $numberFormatter = $this->numberFactory->create($options);
-            $amount = $numberFormatter->format($value['data']);
+            $amount = parent::present($value['data'], $options);
 
             return sprintf('%s %s', $amount, $value['unit']);
         }
