@@ -8,34 +8,39 @@ use \Akeneo\CouplingDetector\Domain\RuleInterface;
 $finder = new DefaultFinder();
 $finder->notPath('Oro');
 
+
+$forbidDoctrine = ['Doctrine\ORM', 'Doctrine\ODM', 'Doctrine\DBAL'];
+$forbidPimAndEnterprise = ['Pim', 'PimEnterprise'];
+$forbidPimEnterprise = ['PimEnterprise'];
+
 $rules = [
     new Rule(
         'Akeneo\Component',
-        ['Pim', 'PimEnterprise', 'Bundle', 'Doctrine\ORM', 'Doctrine\ODM', 'Doctrine\DBAL'],
+        array_merge(['Bundle'], $forbidPimAndEnterprise, $forbidDoctrine),
         RuleInterface::TYPE_FORBIDDEN,
         'Akeneo components should never use the namespace Pim or PimEnterprise, it should never use a Bundle, Doctrine ORM, ODM or DBAL'
     ),
     new Rule(
         'Pim\Component',
-        ['PimEnterprise', 'Bundle', 'Doctrine\ORM', 'Doctrine\ODM', 'Doctrine\DBAL'],
+        array_merge(['Bundle'], $forbidPimEnterprise, $forbidDoctrine),
         RuleInterface::TYPE_FORBIDDEN,
         'Pim components should never use the namespace PimEnterprise, it should never use a Bundle, Doctrine ORM, ODM or DBAL'
     ),
     new Rule(
         'PimEnterprise\Component',
-        ['Bundle', 'Doctrine\ORM', 'Doctrine\ODM', 'Doctrine\DBAL'],
+        array_merge(['Bundle'], $forbidDoctrine),
         RuleInterface::TYPE_FORBIDDEN,
         'PimEnterprise components should never use a Bundle, Doctrine ORM, ODM or DBAL'
     ),
     new Rule(
         'Akeneo\Bundle',
-        ['Pim', 'PimEnterprise'],
+        $forbidPimAndEnterprise,
         RuleInterface::TYPE_FORBIDDEN,
         'Akeneo bundles should never use the namespace Pim or PimEnterprise'
     ),
     new Rule(
         'Pim\Bundle',
-        ['PimEnterprise'],
+        $forbidPimEnterprise,
         RuleInterface::TYPE_FORBIDDEN,
         'Pim bundles should never use the namespace PimEnterprise'
     ),
@@ -161,7 +166,8 @@ $legacyExclusions = [
         'Pim\Bundle\CatalogBundle\Factory\AssociationTypeFactory',
         'Pim\Bundle\CatalogBundle\Factory\FamilyFactory',
         'Pim\Bundle\CatalogBundle\Factory\GroupFactory',
-        // Version manager should be exploded with SRP and introduce different interfaces in a component
+        // Version manager should be exploded with SRP and introduce different interfaces in a component, here we use it
+        // to switch real time versionning that should be moved in VersioningContext/VersioningState?
         'Pim\Bundle\VersioningBundle\Manager\VersionManager',
     ],
     // Same issues than catalog component updater classes, same fixes expected
