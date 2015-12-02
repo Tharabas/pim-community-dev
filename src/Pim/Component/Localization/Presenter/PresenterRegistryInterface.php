@@ -14,11 +14,11 @@ namespace Pim\Component\Localization\Presenter;
 interface PresenterRegistryInterface
 {
     /**
-     * Adds a Presenter to the registry
+     * Register a Presenter to the registry
      *
      * @param PresenterInterface $presenter
      */
-    public function addPresenter(PresenterInterface $presenter);
+    public function registerPresenter(PresenterInterface $presenter);
 
     /**
      * Get the first matching presenter supporting the attribute type.
@@ -30,11 +30,11 @@ interface PresenterRegistryInterface
     public function getPresenter($attributeType);
 
     /**
-     * Adds a Presenter to the registry to manage attribute options
+     * Register a Presenter to the registry to manage attribute options
      *
      * @param PresenterInterface $presenter
      */
-    public function addAttributeOptionPresenter(PresenterInterface $presenter);
+    public function registerAttributeOptionPresenter(PresenterInterface $presenter);
 
     /**
      * Get the first matching presenter supporting the attribute option.

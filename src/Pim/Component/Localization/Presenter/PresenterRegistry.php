@@ -21,7 +21,7 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function addPresenter(PresenterInterface $presenter)
+    public function registerPresenter(PresenterInterface $presenter)
     {
         $this->presenters[] = $presenter;
 
@@ -31,7 +31,7 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function addAttributeOptionPresenter(PresenterInterface $presenter)
+    public function registerAttributeOptionPresenter(PresenterInterface $presenter)
     {
         $this->optionPresenters[] = $presenter;
 
