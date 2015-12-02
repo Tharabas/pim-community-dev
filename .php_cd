@@ -11,27 +11,27 @@ $finder->notPath('Oro');
 $rules = [
     new Rule(
         'Akeneo\Component',
-        ['Pim', 'PimEnterprise', 'Bundle', 'Doctrine\ORM', 'Mongo'],
+        ['Pim', 'PimEnterprise', 'Bundle', 'Doctrine\ORM', 'Doctrine\ODM', 'Doctrine\DBAL'],
         RuleInterface::TYPE_FORBIDDEN,
-        'Akeneo components should never use the namespace Pim, PimEnterprise, any Symfony Bundle or Doctrine ORM'
+        'Akeneo components should never use the namespace Pim or PimEnterprise, it should never use a Bundle, Doctrine ORM, ODM or DBAL'
+    ),
+    new Rule(
+        'Pim\Component',
+        ['PimEnterprise', 'Bundle', 'Doctrine\ORM', 'Doctrine\ODM', 'Doctrine\DBAL'],
+        RuleInterface::TYPE_FORBIDDEN,
+        'Pim components should never use the namespace PimEnterprise, it should never use a Bundle, Doctrine ORM, ODM or DBAL'
+    ),
+    new Rule(
+        'PimEnterprise\Component',
+        ['Bundle', 'Doctrine\ORM', 'Doctrine\ODM', 'Doctrine\DBAL'],
+        RuleInterface::TYPE_FORBIDDEN,
+        'PimEnterprise components should never use a Bundle, Doctrine ORM, ODM or DBAL'
     ),
     new Rule(
         'Akeneo\Bundle',
         ['Pim', 'PimEnterprise'],
         RuleInterface::TYPE_FORBIDDEN,
         'Akeneo bundles should never use the namespace Pim or PimEnterprise'
-    ),
-    new Rule(
-        'Pim\Component',
-        ['PimEnterprise', 'Bundle', 'Doctrine\ORM', 'Mongo'],
-        RuleInterface::TYPE_FORBIDDEN,
-        'Pim components should never use the namespace Pim, PimEnterprise or Doctrine ORM'
-    ),
-    new Rule(
-        'PimEnterprise\Component',
-        ['Bundle', 'Doctrine\ORM'],
-        RuleInterface::TYPE_FORBIDDEN,
-        'Pim components should never use a Symfony Bundle or Doctrine ORM'
     ),
     new Rule(
         'Pim\Bundle',
