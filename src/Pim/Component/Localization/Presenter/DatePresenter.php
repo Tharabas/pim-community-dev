@@ -2,7 +2,7 @@
 
 namespace Pim\Component\Localization\Presenter;
 
-use Pim\Component\Localization\Localizer\DateLocalizer;
+use Pim\Component\Localization\Factory\DateFactory;
 
 /**
  * Date presenter, able to render date readable for a human
@@ -13,19 +13,19 @@ use Pim\Component\Localization\Localizer\DateLocalizer;
  */
 class DatePresenter implements PresenterInterface
 {
-    /** @var DateLocalizer */
-    protected $dateLocalizer;
+    /** @var DateFactory */
+    protected $dateFactory;
 
     /** @var string[] */
     protected $attributeTypes;
 
     /**
-     * @param DateLocalizer $dateLocalizer
-     * @param string[]      $attributeTypes
+     * @param DateFactory $dateFactory
+     * @param string[]    $attributeTypes
      */
-    public function __construct(DateLocalizer $dateLocalizer, array $attributeTypes)
+    public function __construct(DateFactory $dateFactory, array $attributeTypes)
     {
-        $this->dateLocalizer  = $dateLocalizer;
+        $this->dateFactory    = $dateFactory;
         $this->attributeTypes = $attributeTypes;
     }
 
@@ -34,9 +34,17 @@ class DatePresenter implements PresenterInterface
      */
     public function present($value, array $options = [])
     {
-        // TODO Add specs
-        // TODO Refactor after #4999 merge with DateFactory
-        return $this->dateLocalizer->localize($value, $options);
+        if (null === $value || '' === $value) {
+            return $value;
+        }
+
+        if (!($value instanceof \DateTime)) {
+            $value = new \DateTime($value);
+        }
+
+        $formatter = $this->dateFactory->create($options);
+
+        return $formatter->format($value);
     }
 
     /**

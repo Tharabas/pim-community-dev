@@ -52,7 +52,7 @@ services:
     pim_localization.presenter.date:
         class: %pim_localization.presenter.date.class%
         arguments:
-            - '@pim_localization.localizer.date'
+            - '@pim_localization.factory.date'
             - ['pim_catalog_date']
         tags:
             - { name: pim_localization.presenter }
