@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FilterBundle\Tests\Unit\Form\Type;
 
-use Oro\Bundle\FilterBundle\Form\Type\DateRangeType;
+use Pim\Bundle\FilterBundle\Form\Type\DateRangeType;
 
 class DateRangeTypeTest extends AbstractTypeTestCase
 {
