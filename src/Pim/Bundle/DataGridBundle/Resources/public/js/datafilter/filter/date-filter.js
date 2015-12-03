@@ -108,7 +108,7 @@ function($, _, __, ChoiceFilter, localeSettings) {
          *
          * @property
          */
-        dateWidgetSelector: 'div.datepicker',
+        dateWidgetSelector: '.datepicker',
 
         /**
          * @inheritDoc
