@@ -46,7 +46,7 @@ class LocalizedAttributeConverter implements LocalizedAttributeConverterInterfac
 
         foreach ($items as $code => $item) {
             if (isset($attributeTypes[$code])) {
-                $localizer = $this->localizerRegistry->getLocalizer($attributeTypes[$code]);
+                $localizer = $this->localizerRegistry->getAttributeOptionLocalizer($attributeTypes[$code]);
 
                 if (null !== $localizer) {
                     foreach ($item as $index => $data) {

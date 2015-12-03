@@ -124,7 +124,7 @@ class EditCommonAttributesProcessor extends AbstractProcessor
             }
 
             if ($product->isAttributeEditable($attribute)) {
-                $localizer = $this->localizerRegistry->getLocalizer($attribute->getAttributeType());
+                $localizer = $this->localizerRegistry->getAttributeOptionLocalizer($attribute->getAttributeType());
                 if (null !== $localizer) {
                     $action['value'] = $localizer->delocalize($action['value'], [
                         'locale' => $configuration['locale']

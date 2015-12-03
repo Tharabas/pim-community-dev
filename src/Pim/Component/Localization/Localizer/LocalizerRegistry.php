@@ -2,6 +2,8 @@
 
 namespace Pim\Component\Localization\Localizer;
 
+use Pim\Component\Localization\Presenter\PresenterInterface;
+
 /**
  * @author    Marie Bochu <marie.bochu@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -12,28 +14,25 @@ class LocalizerRegistry implements LocalizerRegistryInterface
     /** @var LocalizerInterface[] */
     protected $localizers = [];
 
-    /** @var LocalizerInterface[] */
-    protected $valueLocalizers = [];
-
-    /** @var LocalizerInterface[] */
-    protected $optionLocalizers = [];
-
     /**
      * {@inheritdoc}
      */
-    public function getLocalizer($attributeType)
+    public function register(LocalizerInterface $localizer, $type)
     {
-        return $this->getSupportedLocalizer($this->localizers, $attributeType);
+        if (!isset($this->localizers[$type])) {
+            $this->localizers[$type] = [];
+        }
+        $this->localizers[$type][] = $localizer;
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function registerLocalizer(LocalizerInterface $localizer)
+    public function getAttributeOptionLocalizer($attributeType)
     {
-        $this->localizers[] = $localizer;
-
-        return $this;
+        return $this->getLocalizer($attributeType, 'attribute_option');
     }
 
     /**
@@ -41,51 +40,23 @@ class LocalizerRegistry implements LocalizerRegistryInterface
      */
     public function getProductValueLocalizer($attributeType)
     {
-        return $this->getSupportedLocalizer($this->valueLocalizers, $attributeType);
+        return $this->getLocalizer($attributeType, 'product_value');
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function registerProductValueLocalizer(LocalizerInterface $localizer)
-    {
-        $this->valueLocalizers[] = $localizer;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttributeOptionLocalizer($optionName)
-    {
-        return $this->getSupportedLocalizer($this->optionLocalizers, $optionName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function registerAttributeOptionLocalizer(LocalizerInterface $localizer)
-    {
-        $this->optionLocalizers[] = $localizer;
-
-        return $this;
-    }
-
-    /**
-     * Returns a LocalizerInterface supporting a value.
+     * Get a localizer supporting a value and a type
      *
-     * @param LocalizerInterface[] $localizers
-     * @param string               $value
+     * @param string $value
+     * @param string $type
      *
-     * @return LocalizerInterface|null
+     * @return PresenterInterface|null
      */
-    protected function getSupportedLocalizer(array $localizers, $value)
+    protected function getLocalizer($value, $type)
     {
-        if (!empty($localizers)) {
-            foreach ($localizers as $localizer) {
-                if ($localizer->supports($value)) {
-                    return $localizer;
+        if (isset($this->localizers[$type])) {
+            foreach ($this->localizers[$type] as $presenter) {
+                if ($presenter->supports($value)) {
+                    return $presenter;
                 }
             }
         }

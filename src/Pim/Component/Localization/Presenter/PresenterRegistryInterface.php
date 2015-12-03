@@ -17,31 +17,25 @@ interface PresenterRegistryInterface
      * Register a Presenter to the registry
      *
      * @param PresenterInterface $presenter
+     * @param string             $type
      */
-    public function registerPresenter(PresenterInterface $presenter);
+    public function register(PresenterInterface $presenter, $type);
 
     /**
-     * Get the first matching presenter supporting the attribute type.
+     * Get the first presenter supporting an attribute
      *
      * @param string $attributeType
      *
-     * @return null|PresenterInterface
+     * @return PresenterInterface|null
      */
-    public function getPresenter($attributeType);
+    public function getAttributePresenter($attributeType);
 
     /**
-     * Register a Presenter to the registry to manage attribute options
+     * Get the first presenter supporting an attribute option
      *
-     * @param PresenterInterface $presenter
+     * @param string $optionName
+     *
+     * @return PresenterInterface|null
      */
-    public function registerAttributeOptionPresenter(PresenterInterface $presenter);
-
-    /**
-     * Get the first matching presenter supporting the attribute option.
-     *
-     * @param string $attributeName
-     *
-     * @return null|PresenterInterface
-     */
-    public function getAttributeOptionPresenter($attributeName);
+    public function getAttributeOptionPresenter($optionName);
 }

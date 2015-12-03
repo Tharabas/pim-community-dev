@@ -27,7 +27,7 @@ class LocalizedAttributeConverterSpec extends ObjectBehavior
     {
         $options = ['decimal_separator' => ','];
         $attributeRepository->getAttributeTypeByCodes(['number'])->willReturn(['number' => 'pim_number']);
-        $localizerRegistry->getLocalizer('pim_number')->willReturn($localizer);
+        $localizerRegistry->getAttributeOptionLocalizer('pim_number')->willReturn($localizer);
         $localizer->supports('pim_number')->willReturn(true);
         $localizer->validate('10,45', $options, 'values[number]')->willReturn(null);
         $localizer->delocalize('10,45', $options)->willReturn('10.45');
@@ -43,7 +43,7 @@ class LocalizedAttributeConverterSpec extends ObjectBehavior
     ) {
         $options = ['decimal_separator' => ','];
         $attributeRepository->getAttributeTypeByCodes(['family'])->willReturn([]);
-        $localizerRegistry->getLocalizer('pim_family')->willReturn($localizer);
+        $localizerRegistry->getAttributeOptionLocalizer('pim_family')->willReturn($localizer);
         $localizer->supports('pim_family')->willReturn(false);
 
         $this->convertLocalizedToDefaultValues(['family' => [['data' => 'boots']]], $options)
@@ -57,7 +57,7 @@ class LocalizedAttributeConverterSpec extends ObjectBehavior
     ) {
         $options = ['decimal_separator' => '.'];
         $attributeRepository->getAttributeTypeByCodes(['number'])->willReturn(['number' => 'pim_number']);
-        $localizerRegistry->getLocalizer('pim_number')->willReturn($localizer);
+        $localizerRegistry->getAttributeOptionLocalizer('pim_number')->willReturn($localizer);
 
         $constraint = new ConstraintViolation('Error with attribute', '', [], '', 'values[number]', '10,45');
         $constraints = new ConstraintViolationList([$constraint]);

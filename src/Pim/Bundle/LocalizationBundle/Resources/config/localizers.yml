@@ -23,8 +23,8 @@ services:
             - '@pim_localization.factory.number'
             - ['pim_catalog_number']
         tags:
-            - { name: pim_localization.localizer }
-            - { name: pim_localization.localizer.product_value }
+            - { name: pim_localization.localizer, type: 'attribute_option' }
+            - { name: pim_localization.localizer, type: 'product_value' }
 
     pim_localization.localizer.price:
         class: %pim_localization.localizer.price.class%
@@ -33,7 +33,7 @@ services:
             - '@pim_localization.factory.number'
             - ['pim_catalog_price_collection']
         tags:
-            - { name: pim_localization.localizer }
+            - { name: pim_localization.localizer, type: 'attribute_option' }
 
     pim_localization.localizer.metric:
         class: %pim_localization.localizer.metric.class%
@@ -42,7 +42,7 @@ services:
             - '@pim_localization.factory.number'
             - ['pim_catalog_metric']
         tags:
-            - { name: pim_localization.localizer }
+            - { name: pim_localization.localizer, type: 'attribute_option' }
 
     pim_localization.localizer.date:
         class: %pim_localization.localizer.date.class%
@@ -51,14 +51,5 @@ services:
             - '@pim_localization.factory.date'
             - ['pim_catalog_date']
         tags:
-            - { name: pim_localization.localizer }
-            - { name: pim_localization.localizer.product_value }
-
-    pim_localization.localizer.attribute_option.number:
-        class: %pim_localization.localizer.number.class%
-        arguments:
-            - '@validator'
-            - '@pim_localization.factory.number'
-            - ['number_min', 'number_max']
-        tags:
-            - { name: pim_localization.localizer.attribute_option }
+            - { name: pim_localization.localizer, type: 'attribute_option' }
+            - { name: pim_localization.localizer, type: 'product_value' }

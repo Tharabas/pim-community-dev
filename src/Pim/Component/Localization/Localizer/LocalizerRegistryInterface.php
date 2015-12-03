@@ -2,6 +2,8 @@
 
 namespace Pim\Component\Localization\Localizer;
 
+use Pim\Component\Localization\Presenter\PresenterInterface;
+
 /**
  * Register localizers interface. This interface manage two sets of localizers:
  * - the localizers for all the localizable attributes,
@@ -14,50 +16,28 @@ namespace Pim\Component\Localization\Localizer;
 interface LocalizerRegistryInterface
 {
     /**
-     * Get localizer
-     *
-     * @param string $attributeType
-     *
-     * @return LocalizerInterface|null
-     */
-    public function getLocalizer($attributeType);
-
-    /**
      * Register a localizer
      *
      * @param LocalizerInterface $localizer
+     * @param string             $type
      */
-    public function registerLocalizer(LocalizerInterface $localizer);
+    public function register(LocalizerInterface $localizer, $type);
 
     /**
-     * Get localizer for a product value
+     * Get the first presenter supporting an attribute option
      *
      * @param string $attributeType
      *
-     * @return LocalizerInterface|null
+     * @return PresenterInterface|null
+     */
+    public function getAttributeOptionLocalizer($attributeType);
+
+    /**
+     * Get the first presenter supporting a product value
+     *
+     * @param string $attributeType
+     *
+     * @return PresenterInterface|null
      */
     public function getProductValueLocalizer($attributeType);
-
-    /**
-     * Register a localizer for a product value
-     *
-     * @param LocalizerInterface $localizer
-     */
-    public function registerProductValueLocalizer(LocalizerInterface $localizer);
-
-    /**
-     * Get localizer for an attribute option name
-     *
-     * @param string $optionName
-     *
-     * @return LocalizerInterface|null
-     */
-    public function getAttributeOptionLocalizer($optionName);
-
-    /**
-     * Register a localizer for a product value
-     *
-     * @param LocalizerInterface $localizer
-     */
-    public function registerAttributeOptionLocalizer(LocalizerInterface $localizer);
 }

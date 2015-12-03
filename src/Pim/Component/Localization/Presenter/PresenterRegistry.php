@@ -15,15 +15,15 @@ class PresenterRegistry implements PresenterRegistryInterface
     /** @var PresenterInterface[] */
     protected $presenters = [];
 
-    /** @var PresenterInterface[] */
-    protected $optionPresenters = [];
-
     /**
      * {@inheritdoc}
      */
-    public function registerPresenter(PresenterInterface $presenter)
+    public function register(PresenterInterface $presenter, $type)
     {
-        $this->presenters[] = $presenter;
+        if (!isset($this->presenters[$type])) {
+            $this->presenters[$type] = [];
+        }
+        $this->presenters[$type][] = $presenter;
 
         return $this;
     }
@@ -31,42 +31,34 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function registerAttributeOptionPresenter(PresenterInterface $presenter)
+    public function getAttributePresenter($attributeType)
     {
-        $this->optionPresenters[] = $presenter;
-
-        return $this;
+        return $this->getPresenter($attributeType, 'attribute');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPresenter($attributeType)
+    public function getAttributeOptionPresenter($optionName)
     {
-        return $this->getSupportedPresenter($this->presenters, $attributeType);
+        return $this->getPresenter($optionName, 'attribute_option');
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getAttributeOptionPresenter($attributeName)
-    {
-        return $this->getSupportedPresenter($this->optionPresenters, $attributeName);
-    }
-
-    /**
-     * Returning the first presenter supporting the value
+     * Get a presenter supporting value and type
      *
-     * @param PresenterInterface[] $presenters
-     * @param string               $value
+     * @param string $value
+     * @param string $type
      *
      * @return PresenterInterface|null
      */
-    protected function getSupportedPresenter(array $presenters, $value)
+    protected function getPresenter($value, $type)
     {
-        foreach ($presenters as $presenter) {
-            if ($presenter->supports($value)) {
-                return $presenter;
+        if (isset($this->presenters[$type])) {
+            foreach ($this->presenters[$type] as $presenter) {
+                if ($presenter->supports($value)) {
+                    return $presenter;
+                }
             }
         }
 

@@ -134,7 +134,7 @@ class EditCommonAttributesProcessorSpec extends ObjectBehavior
         $attributeRepository->findOneBy(['code' => 'categories'])->willReturn($attribute);
         $product->isAttributeEditable($attribute)->willReturn(true);
 
-        $localizerRegistry->getLocalizer('multi_select')->willReturn($localizer);
+        $localizerRegistry->getAttributeOptionLocalizer('multi_select')->willReturn($localizer);
         $localizer->delocalize(['2,5'], ['locale' => 'fr_FR'])->willReturn('2.5');
 
         $propertySetter->setData($product, 'categories', '2.5', [])->shouldBeCalled();
