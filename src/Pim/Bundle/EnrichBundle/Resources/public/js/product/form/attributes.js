@@ -287,7 +287,11 @@ define(
                             this.render();
                         }
 
-                        FieldManager.getFields()[event.attribute].setFocus();
+                        var displayedAttributes = FieldManager.getFields();
+
+                        if (_.has(displayedAttributes, event.attribute)) {
+                            displayedAttributes[event.attribute].setFocus();
+                        }
                     }.bind(this));
             },
             comparisonChange: function (open) {
