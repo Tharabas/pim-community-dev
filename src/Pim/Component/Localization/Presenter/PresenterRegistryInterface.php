@@ -28,7 +28,7 @@ interface PresenterRegistryInterface
      *
      * @return PresenterInterface|null
      */
-    public function getAttributePresenter($attributeType);
+    public function getProductValuePresenter($attributeType);
 
     /**
      * Get the first presenter supporting an attribute option

@@ -4,7 +4,7 @@ namespace Pim\Component\Localization\Presenter;
 
 /**
  * The PresenterRegistry registers the presenters to display attribute values readable information. The matching
- * presenters are returned from an attributeType
+ * presenters are returned from an attributeType or an option name.
  *
  * @author    Pierre Allard <pierre.allard@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -12,6 +12,10 @@ namespace Pim\Component\Localization\Presenter;
  */
 class PresenterRegistry implements PresenterRegistryInterface
 {
+    const PRODUCT_VALUE_TYPE = 'product_value';
+
+    const ATTRIBUTE_OPTION_TYPE = 'attribute_option';
+
     /** @var PresenterInterface[] */
     protected $presenters = [];
 
@@ -31,9 +35,9 @@ class PresenterRegistry implements PresenterRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributePresenter($attributeType)
+    public function getProductValuePresenter($attributeType)
     {
-        return $this->getPresenter($attributeType, 'attribute');
+        return $this->getPresenter($attributeType, self::PRODUCT_VALUE_TYPE);
     }
 
     /**
@@ -41,7 +45,7 @@ class PresenterRegistry implements PresenterRegistryInterface
      */
     public function getAttributeOptionPresenter($optionName)
     {
-        return $this->getPresenter($optionName, 'attribute_option');
+        return $this->getPresenter($optionName, self::ATTRIBUTE_OPTION_TYPE);
     }
 
     /**

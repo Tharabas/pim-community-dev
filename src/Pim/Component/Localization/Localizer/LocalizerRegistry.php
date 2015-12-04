@@ -11,6 +11,10 @@ use Pim\Component\Localization\Presenter\PresenterInterface;
  */
 class LocalizerRegistry implements LocalizerRegistryInterface
 {
+    const ATTRIBUTE_OPTION_TYPE = 'attribute_option';
+
+    const PRODUCT_VALUE_TYPE = 'product_value';
+
     /** @var LocalizerInterface[] */
     protected $localizers = [];
 
@@ -32,7 +36,7 @@ class LocalizerRegistry implements LocalizerRegistryInterface
      */
     public function getAttributeOptionLocalizer($attributeType)
     {
-        return $this->getLocalizer($attributeType, 'attribute_option');
+        return $this->getLocalizer($attributeType, self::ATTRIBUTE_OPTION_TYPE);
     }
 
     /**
@@ -40,11 +44,11 @@ class LocalizerRegistry implements LocalizerRegistryInterface
      */
     public function getProductValueLocalizer($attributeType)
     {
-        return $this->getLocalizer($attributeType, 'product_value');
+        return $this->getLocalizer($attributeType, self::PRODUCT_VALUE_TYPE);
     }
 
     /**
-     * Get a localizer supporting a value and a type
+     * Get a localizer supported by value and type
      *
      * @param string $value
      * @param string $type

@@ -16,15 +16,15 @@ class PresenterRegistrySpec extends ObjectBehavior
     function it_get_localizer(PresenterInterface $presenter)
     {
         $presenter->supports('pim_catalog_number')->willReturn(true);
-        $this->register($presenter, 'attribute');
-        $this->getAttributePresenter('pim_catalog_number')->shouldReturn($presenter);
+        $this->register($presenter, 'product_value');
+        $this->getProductValuePresenter('pim_catalog_number')->shouldReturn($presenter);
     }
 
     function it_returns_null_if_there_is_no_localizer(PresenterInterface $presenter)
     {
         $presenter->supports('pim_catalog_number')->willReturn(false);
-        $this->register($presenter, 'attribute');
-        $this->getAttributePresenter('pim_catalog_number')->shouldReturn(null);
+        $this->register($presenter, 'product_value');
+        $this->getProductValuePresenter('pim_catalog_number')->shouldReturn(null);
     }
 
     function it_get_product_value_localizer(PresenterInterface $presenter)

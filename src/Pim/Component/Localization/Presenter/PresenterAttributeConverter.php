@@ -48,7 +48,7 @@ class PresenterAttributeConverter implements PresenterAttributeConverterInterfac
             return $data;
         }
 
-        $presenter = $this->presenterRegistry->getAttributePresenter($attributeType);
+        $presenter = $this->presenterRegistry->getProductValuePresenter($attributeType);
         if (null === $presenter) {
             return $data;
         }
