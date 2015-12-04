@@ -2,6 +2,8 @@
 
 namespace Pim\Component\Localization\Presenter;
 
+use Pim\Component\Catalog\Repository\AttributeRepositoryInterface;
+
 /**
  * The PresenterRegistry registers the presenters to display attribute values readable information. The matching
  * presenters are returned from an attributeType or an option name.
@@ -16,8 +18,16 @@ class PresenterRegistry implements PresenterRegistryInterface
 
     const ATTRIBUTE_OPTION_TYPE = 'attribute_option';
 
+    /** @var AttributeRepositoryInterface */
+    protected $attributeRepository;
+
     /** @var PresenterInterface[] */
     protected $presenters = [];
+
+    public function __construct(AttributeRepositoryInterface $attributeRepository)
+    {
+        $this->attributeRepository = $attributeRepository;
+    }
 
     /**
      * {@inheritdoc}
@@ -32,11 +42,18 @@ class PresenterRegistry implements PresenterRegistryInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getProductValuePresenter($attributeType)
+    public function getPresenterByAttributeCode($code)
     {
+        $attribute = $this->attributeRepository->findOneByIdentifier($code);
+        if (null === $attribute) {
+            return null;
+        }
+
+        $attributeType = $attribute->getAttributeType();
+        if (null === $attributeType) {
+            return null;
+        }
+
         return $this->getPresenter($attributeType, self::PRODUCT_VALUE_TYPE);
     }
 

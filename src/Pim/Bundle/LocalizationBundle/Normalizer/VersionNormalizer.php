@@ -4,7 +4,7 @@ namespace Pim\Bundle\LocalizationBundle\Normalizer;
 
 use Pim\Bundle\VersioningBundle\Model\Version;
 use Pim\Component\Localization\LocaleResolver;
-use Pim\Component\Localization\Presenter\PresenterAttributeConverterInterface;
+use Pim\Component\Localization\Presenter\PresenterRegistryInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -19,8 +19,8 @@ class VersionNormalizer implements NormalizerInterface
     /** @var NormalizerInterface */
     protected $versionNormalizer;
 
-    /** @var PresenterAttributeConverterInterface */
-    protected $converter;
+    /** @var PresenterRegistryInterface */
+    protected $presenterRegistry;
 
     /** @var LocaleResolver */
     protected $localeResolver;
@@ -29,17 +29,17 @@ class VersionNormalizer implements NormalizerInterface
     protected $supportedFormats = ['internal_api'];
 
     /**
-     * @param NormalizerInterface                  $versionNormalizer
-     * @param PresenterAttributeConverterInterface $converter
-     * @param LocaleResolver                       $localeResolver
+     * @param NormalizerInterface        $versionNormalizer
+     * @param PresenterRegistryInterface $presenterRegistry
+     * @param LocaleResolver             $localeResolver
      */
     public function __construct(
         NormalizerInterface $versionNormalizer,
-        PresenterAttributeConverterInterface $converter,
+        PresenterRegistryInterface $presenterRegistry,
         LocaleResolver $localeResolver
     ) {
         $this->versionNormalizer = $versionNormalizer;
-        $this->converter         = $converter;
+        $this->presenterRegistry = $presenterRegistry;
         $this->localeResolver    = $localeResolver;
     }
 
@@ -80,7 +80,11 @@ class VersionNormalizer implements NormalizerInterface
             }
 
             foreach ($changes as $key => $value) {
-                $changeset[$attribute][$key] = $this->converter->convert($attributeName, $value, $options);
+                $presenter = $this->presenterRegistry->getPresenterByAttributeCode($attributeName);
+
+                if (null !== $presenter) {
+                    $changeset[$attribute][$key] = $presenter->present($value, $options);
+                }
             }
         }
 
